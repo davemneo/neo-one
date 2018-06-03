@@ -10,17 +10,18 @@ import { utils } from '@neo-one/utils';
 import { STACK_ITEM_TYPE } from './StackItemType';
 import ArrayStackItem from './ArrayStackItem';
 import { InvalidValueBufferError } from './errors';
-import StackItemBase from './StackItemBase';
+import CollectionStackItemBase from './CollectionStackItemBase';
 import type { StackItem } from './StackItem';
 
 type MapKeys = { [key: string]: StackItem };
 type MapValues = { [key: string]: StackItem };
-export default class MapStackItem extends StackItemBase {
+export default class MapStackItem extends CollectionStackItemBase {
   _keys: MapKeys;
   _values: MapValues;
 
   constructor(options?: {| keys: MapKeys, values: MapValues |}) {
     super();
+    this._scrub();
     const { keys, values } = options || {};
     this._keys = keys || {};
     this._values = values || {};
@@ -74,6 +75,9 @@ export default class MapStackItem extends StackItemBase {
   }
 
   set(key: StackItem, value: StackItem): this {
+    if(this._parentChain[value]){
+      throw new Error(`Collection contains circular reference: ${value.toKeyString()}`);
+    }
     const keyValue = key.toKeyString();
     this._keys[keyValue] = key;
     this._values[keyValue] = value;

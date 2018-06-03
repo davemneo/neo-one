@@ -6,17 +6,18 @@ import {
 } from '@neo-one/client-core';
 
 import { InvalidValueBufferError } from './errors';
-import StackItemBase from './StackItemBase';
+import CollectionStackItemBase from './CollectionStackItemBase';
 import type { StackItem } from './StackItem';
 import type { StackItemType } from './StackItemType';
 
-export default class ArrayLikeStackItem extends StackItemBase {
+export default class ArrayLikeStackItem extends CollectionStackItemBase {
   static type: StackItemType;
 
   value: Array<StackItem>;
 
   constructor(value: Array<StackItem>) {
     super();
+    this._scrub();
     this.value = value;
   }
 
@@ -45,6 +46,10 @@ export default class ArrayLikeStackItem extends StackItemBase {
 
   asArray(): Array<StackItem> {
     return this.value;
+  }
+
+  valuesArray(): Array<StackItem> {
+    return this.asArray();
   }
 
   asBoolean(): boolean {
