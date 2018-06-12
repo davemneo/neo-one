@@ -41,15 +41,6 @@ export class ShallowCloneObjectHelper extends Helper<Node> {
     // [length, pobj, sobj, iobj, ...]
     roll();
     // [object]
-    sb.emitOp(node, 'PACK');
-
-    // [objectType, object]
-    sb.emitPushInt(node, Types.Object);
-
-    /* create object */
-    // [2, objectType, object]
-    sb.emitPushInt(node, 2);
-    // [objectVal]
-    sb.emitOp(node, 'PACK');
+    sb.emitHelper(node, options, sb.helpers.packObject);
   }
 }
