@@ -103,6 +103,7 @@ import {
   SetDataSymbolObjectPropertyHelper,
   ShallowCloneObjectHelper,
   ShallowCloneObjHelper,
+  PackObjectHelper,
   ToObjectHelper,
   InstanceofHelper,
   CreatePropertyObjectHelper,
@@ -285,6 +286,7 @@ export interface Helpers {
   setInternalObjectProperty: SetInternalObjectPropertyHelper;
   shallowCloneObject: ShallowCloneObjectHelper;
   shallowCloneObj: ShallowCloneObjHelper;
+  packObject: PackObjectHelper;
   elementAccess: ElementAccessHelper;
   unwrapType: UnwrapTypeHelper;
   unwrapVal: UnwrapValHelper;
