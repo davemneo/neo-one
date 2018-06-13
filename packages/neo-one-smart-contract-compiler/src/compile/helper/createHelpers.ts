@@ -462,6 +462,7 @@ export const createHelpers = (): Helpers => {
     setInternalObjectProperty: new SetInternalObjectPropertyHelper(),
     shallowCloneObject: new ShallowCloneObjectHelper(),
     shallowCloneObj: new ShallowCloneObjHelper(),
+    packObject: new PackObjectHelper(),
     elementAccess: new ElementAccessHelper(),
     unwrapType: new UnwrapTypeHelper(),
     unwrapVal: new UnwrapValHelper(),

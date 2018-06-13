@@ -18,6 +18,6 @@ export class PackObjectHelper extends Helper<Node> {
       sb.emitPushInt(node, 2);
       // [objectVal]
       sb.emitOp(node, 'PACK');
-      }
+    }
   }
 }

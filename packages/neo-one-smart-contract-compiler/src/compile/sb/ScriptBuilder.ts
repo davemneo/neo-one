@@ -45,7 +45,6 @@ export interface ScriptBuilder {
     options: VisitOptions,
     helper: Helper<T>,
   ): void;
-  packObject(options: VisitOptions): VisitOptions;
   emitBytecode(bytecode: Bytecode): void;
   emitCall(node: Node): void;
   emitSysCall(node: Node, name: SysCallName): void;
