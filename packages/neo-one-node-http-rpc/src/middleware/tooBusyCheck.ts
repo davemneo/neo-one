@@ -8,20 +8,22 @@ export interface Options {
   readonly smoothingFactor?: number;
 }
 
-export const tooBusyCheck = (options: Options) => {
-  if (options.interval !== undefined) {
+tooBusy.maxLag(1200);
+
+export const tooBusyCheck = (options?: Options) => {
+  if (options !== undefined && options.interval !== undefined) {
     tooBusy.interval(options.interval);
   }
-  if (options.maxLag !== undefined) {
+  if (options !== undefined && options.maxLag !== undefined) {
     tooBusy.maxLag(options.maxLag);
   }
-  if (options.smoothingFactor !== undefined) {
+  if (options !== undefined && options.smoothingFactor !== undefined) {
     tooBusy.smoothingFactor(options.smoothingFactor);
   }
 
   return async (ctx: Context, next: () => Promise<void>) => {
     if (tooBusy()) {
-      ctx.status = 503;
+      ctx.status = 500;
     } else {
       await next();
     }

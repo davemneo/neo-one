@@ -11,6 +11,8 @@ import { distinctUntilChanged, map, publishReplay, refCount } from 'rxjs/operato
 import {
   liveHealthCheck,
   LiveHealthCheckOptions,
+  rateLimitCheck,
+  RateLimitCheckOptions,
   readyHealthCheck,
   ReadyHealthCheckOptions,
   rpc,
@@ -39,7 +41,7 @@ export interface Options {
   readonly liveHealthCheck?: LiveHealthCheckOptions;
   readonly readyHealthCheck?: ReadyHealthCheckOptions;
   readonly tooBusyCheck?: TooBusyCheckOptions & { readonly enabled?: boolean };
-  readonly rateLimit?: rateLimit.Options & { readonly enabled?: boolean };
+  readonly rateLimit?: RateLimitCheckOptions | rateLimit.Options & { readonly enabled?: boolean };
 }
 
 export const rpcServer$ = ({
@@ -105,14 +107,8 @@ export const rpcServer$ = ({
         router.get(readyMiddleware.name, readyMiddleware.path, readyMiddleware.middleware);
       }
 
-      if (rateLimitOptions !== undefined && rateLimitOptions.enabled) {
-        router.use(rateLimit(rateLimitOptions));
-      }
-
-      if (tooBusyCheckOptions !== undefined && tooBusyCheckOptions.enabled) {
-        router.use(tooBusyCheck(tooBusyCheckOptions));
-      }
-
+      router.use(rateLimitCheck(rateLimitOptions));
+      router.use(tooBusyCheck(tooBusyCheckOptions));
       router.use(cors).post(rpcMiddleware.name, rpcMiddleware.path, rpcMiddleware.middleware);
 
       app.use(router.routes());
