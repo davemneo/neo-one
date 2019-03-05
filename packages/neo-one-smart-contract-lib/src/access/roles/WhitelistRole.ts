@@ -12,13 +12,13 @@ export function WhitelistRole<TBase extends Constructor<SmartContract>>(Base: TB
     private readonly remove_whitelist = createEventNotifier<Address, Address>('remove whitelist', 'address', 'by');
 
     @constant
-    public isWhitelist(address: Address): boolean {
+    public isWhitelisted(address: Address): boolean {
       return AccessRoleHandler.isMember(this.mutableWhitelistList, address);
     }
 
     @constant
     public onlyWhitelists(address: Address): boolean {
-      return Address.isCaller(address) && this.isWhitelist(address);
+      return Address.isCaller(address) && this.isWhitelisted(address);
     }
 
     public addWhitelist(address: Address, requstedBy: Address): boolean {
