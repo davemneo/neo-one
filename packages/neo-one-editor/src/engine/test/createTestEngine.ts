@@ -12,7 +12,7 @@ import {
 // @ts-ignore
 import expect from 'jest-matchers';
 // @ts-ignore
-import jestMock from 'jest-mock';
+import { JestMock as jestMock } from 'jest-mock';
 import { createFileSystem, createTranspileCache } from '../create';
 import { RemoteEngine } from '../remote';
 import { getPathWithExports } from '../remote/packages';
