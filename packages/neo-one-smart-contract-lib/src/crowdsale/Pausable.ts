@@ -1,5 +1,5 @@
 import { Address, constant, createEventNotifier, SmartContract } from '@neo-one/smart-contract';
-import { PauserRole } from '../access/';
+import { PauserRole } from './PauserRole';
 
 export function Pausable<TBase extends Constructor<SmartContract>>(Base: TBase) {
   abstract class PausableClass extends PauserRole<Constructor<SmartContract>>(Base) {

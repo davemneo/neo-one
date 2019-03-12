@@ -1,5 +1,5 @@
 import { Address, constant, createEventNotifier, MapStorage, SmartContract } from '@neo-one/smart-contract';
-import { AccessRoleHandler } from '../AccessRoles';
+import { AccessRoleHandler } from './AccessRoles';
 
 export function WhitelistRole<TBase extends Constructor<SmartContract>>(Base: TBase) {
   abstract class WhitelistRoleClass extends Base {

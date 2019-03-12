@@ -1,18 +1,5 @@
 import { Address, SmartContract, Fixed, constant, createEventNotifier } from '@neo-one/smart-contract';
 
-/**
- * @title Crowdsale
- * @dev Crowdsale is a base contract for managing a token crowdsale,
- * allowing investors to purchase tokens with NEO. This contract implements
- * such functionality in its most fundamental form and can be extended to provide additional
- * functionality and/or custom behavior.
- * The EXTERNAL interface represents the basic interface for purchasing tokens, and conform
- * the base architecture for crowdsales. They are *not* intended to be modified / overridden.
- * The INTERNAL interface conforms the extensible and modifiable surface of crowdsales. Override
- * the methods to add functionality. Consider using 'super' where appropriate to concatenate
- * behavior.
- */
-
 const tokens_purchased = createEventNotifier<Address | undefined, Address | undefined, Fixed<8>, Fixed<8>>(
   'tokens purchased',
   'from',
