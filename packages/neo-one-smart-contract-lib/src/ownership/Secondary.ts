@@ -1,10 +1,11 @@
 import { Address, createEventNotifier, SmartContract } from '@neo-one/smart-contract';
 
-const notifyTransferPrimary = createEventNotifier<Address, Address>('transfer_primary', 'from', 'to');
-
 export function Secondary<TBase extends Constructor<SmartContract>>(base: TBase) {
+  // With the code in one state, it complains about "base" Class extends value undefined is not a constructor or null
   abstract class SecondaryClass extends base {
     protected abstract readonly initialPrimary: Address;
+    // Yes, the "readonly" is missing, would it be reasonable to create an issue to make this error more robust?
+    protected readonly notifyTransferPrimary = createEventNotifier<Address, Address>('transfer_primary', 'from', 'to');
     private mutablePrimary: Address | undefined = undefined;
     private mutablePrimaryInitialized = false;
 
@@ -15,7 +16,7 @@ export function Secondary<TBase extends Constructor<SmartContract>>(base: TBase)
     public transferPrimary(to: Address): boolean {
       this.onlyPrimary();
       const primary = this.primaryOrThrow();
-      notifyTransferPrimary(primary, to);
+      this.notifyTransferPrimary(primary, to);
       this.mutablePrimary = to;
 
       return true;

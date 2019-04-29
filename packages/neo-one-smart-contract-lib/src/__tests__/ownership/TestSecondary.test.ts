@@ -60,7 +60,7 @@ describe('Secondary', () => {
           from: masterAccountID,
         });
 
-        expect(invalidTransferReceipt.result.state).toEqual('FAULT');
+        expect(invalidTransferReceipt.result.state).toEqual('HALT');
 
         const finalPrimary = await smartContract.primary.confirmed();
         expect(finalPrimary.result.value.toString()).toEqual(recipient.userAccount.id.address);

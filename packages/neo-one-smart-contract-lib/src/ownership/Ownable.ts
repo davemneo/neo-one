@@ -1,10 +1,18 @@
-import { Address, SmartContract, createEventNotifier } from '@neo-one/smart-contract';
+import { Address, createEventNotifier, SmartContract } from '@neo-one/smart-contract';
 
+/* See the error you get when you run "yarn jest TestOwnable" happens when you toggle comments of 4 & 11 and 32 & 33  */
 const notifyTransferOwnership = createEventNotifier<Address, Address>('transfer_ownership', 'from', 'to');
 
 export function Ownable<TBase extends Constructor<SmartContract>>(base: TBase) {
   abstract class OwnableClass extends base {
     protected abstract initialOwner: Address;
+    // LACK OF READONLY throws an error saying that a contract storage is not used properly:
+    // protected notifyTransferOwnership = createEventNotifier<Address, Address>('transfer_ownership', 'from', 'to');
+    protected readonly notifyTransferOwnership = createEventNotifier<Address, Address>(
+      'transfer_ownership',
+      'from',
+      'to',
+    );
     private mutableOwner: Address | undefined = undefined;
     private mutableOwnerInitialized = false;
 
@@ -22,6 +30,7 @@ export function Ownable<TBase extends Constructor<SmartContract>>(base: TBase) {
       this.onlyOwner();
       const owner = this.ownerOrThrow();
       notifyTransferOwnership(owner, to);
+      // this.notifyTransferOwnership(owner, to);
       this.mutableOwner = to;
 
       return true;
